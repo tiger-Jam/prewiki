@@ -1,58 +1,47 @@
-version: "3.8"
+version: '3.8'
 
 services:
-  php-jikken-nginx:
+  php:
+    image: php:8.1-fpm
+    container_name: prewiki-php
+    volumes:
+      - ./prewiki:/var/www/html
+    networks:
+      - prewiki-network
+    depends_on:
+      - mysql
+
+  nginx:
     image: nginx:latest
-    container_name: php-jikken-nginx
+    container_name: prewiki-nginx
     ports:
       - "8001:80"
     volumes:
-      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
-      - ./src:/var/www/html
+      - ./nginx.conf:/etc/nginx/nginx.conf
+      - ./prewiki:/var/www/html
     depends_on:
-      - php-jikken-php
+      - php
     networks:
-      - php-jikken-network
+      - prewiki-network
 
-  php-jikken-php:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    container_name: php-jikken-php
-    volumes:
-      - ./src:/var/www/html
-    networks:
-      - php-jikken-network
-
-  php-jikken-phpmyadmin:
-    image: phpmyadmin:latest
-    container_name: php-jikken-phpmyadmin
-    ports:
-      - "8002:80"
-    environment:
-      PMA_HOST: php-jikken-mysql
-      PMA_USER: root
-      PMA_PASSWORD: root
-    depends_on:
-      - php-jikken-mysql
-    networks:
-      - php-jikken-network
-
-  php-jikken-mysql:
-    image: mysql:latest
-    container_name: php-jikken-mysql
+  mysql:
+    image: mysql:8.0
+    container_name: prewiki-mysql
     environment:
       MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: laravel
-      MYSQL_USER: laravel
-      MYSQL_PASSWORD: laravel
+      MYSQL_DATABASE: prewiki
+      MYSQL_USER: prewiki
+      MYSQL_PASSWORD: prewiki
     volumes:
       - mysql_data:/var/lib/mysql
     networks:
-      - php-jikken-network
+      - prewiki-network
 
 volumes:
   mysql_data:
 
 networks:
-  php-jikken-network:
+  prewiki-network:
+
+
+#a
