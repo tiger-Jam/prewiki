@@ -17,9 +17,9 @@
                 Dropdown button
             </button>
             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                <li><a class="dropdown-item" href="#">カテゴリ1</a></li>
-                <li><a class="dropdown-item" href="#">カテゴリ2</a></li>
-                <li><a class="dropdown-item" href="#">カテゴリ3</a></li>
+                <li><a class="dropdown-item" href="#">name1</a></li>
+                <li><a class="dropdown-item" href="#">name2</a></li>
+                <li><a class="dropdown-item" href="#">name3</a></li>
             </ul>
         </div>
 
